@@ -30,7 +30,3 @@ jobs:
       uses: matlab-actions/setup-matlab@v2
       with:
         release: R2024a
-
-    - name: Verify installation
-      run: |
-        python -c "import numpy; print('Numpy version:', numpy.__version__)"
