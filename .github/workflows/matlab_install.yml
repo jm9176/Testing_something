@@ -35,4 +35,3 @@ jobs:
       uses: matlab-actions/run-tests@v2
       with:
         select-by-folder: "testing_something/test"
-	output-detail: "verbose"
