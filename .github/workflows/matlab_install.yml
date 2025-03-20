@@ -17,9 +17,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@v2
+      uses: matlab-actions/setup-matlab@v1
       with:
-        release: R2023b
+        release: R2023a
 
     - name: Verify MATLAB installation
       run: |
