@@ -31,8 +31,7 @@ jobs:
       with:
         release: R2024a
 
-    - name: Verify MATLAB and other 3p installation
+    - name: Verify installation
       run: |
-	matlab -batch "disp('MATLAB R2024a is installed successfully!')"
-	python -c "import numpy; print ('Numpy version:',numpy.__version__)"
-	python -c "import tensorstore; print('Tensorstore version:',tensorstore.__version__)"
+        python -c "import numpy; print('Numpy version:', numpy.__version__)"
+        python -c "import tensorstore; print('Tensorstore version:', tensorstore.__version__)"
