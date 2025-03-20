@@ -19,8 +19,8 @@ jobs:
     - name: Set up MATLAB
       uses: matlab-actions/setup-matlab@v1
       with:
-        release: R2024b
+        release: R2024a
 
     - name: Verify MATLAB installation
       run: |
-        matlab -batch "disp('MATLAB R2024b is installed successfully!')"
+        matlab -batch "disp('MATLAB R2024a is installed successfully!')"
