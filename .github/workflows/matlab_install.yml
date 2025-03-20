@@ -1,0 +1,26 @@
+name: Install MATLAB
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up MATLAB
+      uses: matlab-actions/setup-matlab@v1
+      with:
+        release: R2023a # Specify the MATLAB release you want to use
+
+    - name: Verify MATLAB installation
+      run: |
+        matlab -batch "disp('MATLAB is installed successfully!')"
