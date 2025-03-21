@@ -34,5 +34,5 @@ jobs:
     - name: Run tests
       uses: matlab-actions/run-tests@v2
       with:
-        select-by-folder: Testing_something/test/
+        select-by-folder: 'test'
         output-detail: 'verbose'
