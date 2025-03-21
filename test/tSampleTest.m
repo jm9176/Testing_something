@@ -3,8 +3,8 @@ classdef tSampleTest < matlab.unittest.TestCase
 
     methods(Test)
         function sampleTestPoint(testcase)
-            import matlab.unittest.fixtures.WorkingFolderFixture;
-            testcase.applyFixture(WorkingFolderFixture);
+            % import matlab.unittest.fixtures.WorkingFolderFixture;
+            % testcase.applyFixture(WorkingFolderFixture);
 
             % Dummy data
             dsetSize = [5 10];
