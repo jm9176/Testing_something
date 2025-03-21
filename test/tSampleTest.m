@@ -2,7 +2,7 @@ classdef tSampleTest < matlab.unittest.TestCase
     % Sample test to verify HDF5 dataset data write/read.
 
     methods(Test)
-        function sampleTestPoint(testcase)
+        function testSample(testcase)
             % import matlab.unittest.fixtures.WorkingFolderFixture;
             % testcase.applyFixture(WorkingFolderFixture);
 
