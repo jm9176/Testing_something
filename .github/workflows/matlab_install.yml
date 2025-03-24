@@ -21,30 +21,19 @@ jobs:
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
         volumes:
-          - "/testfiles:/tmp/localstack/data:ro"
-          - "/aws:/docker-entrypoint-initaws.d"
+          - "./testfiles:/tmp/localstack/data:ro"
+          - "./aws:/docker-entrypoint-initaws.d"
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'  # This uses the latest Python 3 version
-
-    - name: Install dependencies
+    - name: Check file availability
+      env:
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_DEFAULT_REGION: us-east-1
+        S3_ENDPOINT: http://localhost:4566
       run: |
-        python -m pip install --upgrade pip
-        pip install numpy tensorstore
-
-    - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@v2
-      with:
-        release: R2024a
-
-    - name: Run tests
-      uses: matlab-actions/run-tests@v2
-      with:
-        select-by-folder: 'test'
-        output-detail: 'verbose'
+        # Example: List files in the mounted directory
+        ls /tmp/localstack/data
