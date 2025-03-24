@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       s3:
-        image: localstack/localstack:4.2
+        image: localstack/localstack:0.12.19
         ports:
           - 4566:4566
         options: >-
@@ -21,8 +21,7 @@ jobs:
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
         volumes:
-          - "./testfiles:/tmp/localstack/data"
-          - "./aws:/docker-entrypoint-initaws.d"
+          - "./testfiles:/tmp/data"
 
     steps:
     - name: Checkout repository
@@ -36,4 +35,4 @@ jobs:
         S3_ENDPOINT: http://localhost:4566
       run: |
         # Example: List files in the mounted directory
-        ls /tmp/localstack/data
+        ls /tmp/data
