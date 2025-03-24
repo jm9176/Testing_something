@@ -21,7 +21,7 @@ jobs:
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
         volumes:
-          - "./testfiles:/tmp/localstack/data:ro"
+          - "./testfiles:/tmp/localstack/data"
           - "./aws:/docker-entrypoint-initaws.d"
 
     steps:
