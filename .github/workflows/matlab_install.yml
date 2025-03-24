@@ -16,8 +16,10 @@ jobs:
         image: localstack/localstack:4.2
         ports:
           - 4566:4566
-        environment:
-          - SERVICES=s3
+        options: >-
+          --name localstack
+          -e SERVICES=s3
+          -e DEFAULT_REGION=us-east-1
 
     steps:
     - name: Checkout repository
