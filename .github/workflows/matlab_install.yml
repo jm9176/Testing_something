@@ -18,7 +18,8 @@ jobs:
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
         volumes:
-          - ${{ github.workspace }}/data:/mnt/data  # Mounts the 'data' directory from the repo to '/mnt/data' in the container
+          - ${{github.workspace}}/testfiles:/tmp/localstack/data
+          - ${{github.workspace}}/aws:/docker-entrypoint-initaws.d
 
     steps:
     - name: Checkout code
@@ -27,14 +28,10 @@ jobs:
     - name: Install curl
       run: sudo apt-get install -y curl
 
-    - name: Prepare data directory
-      run: mkdir -p data && echo "Sample data" > data/sample.txt
-
     - name: Run tests
       env:
         AWS_ACCESS_KEY_ID: test
         AWS_SECRET_ACCESS_KEY: test
-        AWS_DEFAULT_REGION: us-east-1
         S3_ENDPOINT: http://localhost:4566
       run: |
         # Create a bucket using the AWS S3 REST API
@@ -44,8 +41,3 @@ jobs:
         # List buckets to verify creation
         echo "Listing buckets:"
         curl "${S3_ENDPOINT}"
-
-        # Verify mounted volume
-        echo "Contents of mounted volume:"
-        ls /mnt/data
-        cat /mnt/data/sample.txt
