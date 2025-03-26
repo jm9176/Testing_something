@@ -18,7 +18,7 @@ jobs:
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
         volumes:
-          - ${{github.workspace}}/testfiles:/tmp/localstack/data
+          - ${{github.workspace}}/testfiles:/mnt/data
           - ${{github.workspace}}/aws:/docker-entrypoint-initaws.d
 
     steps:
