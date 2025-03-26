@@ -39,3 +39,7 @@ jobs:
         AWS_DEFAULT_REGION: us-east-1
         S3_ENDPOINT: http://localhost:4566
       run: python create_bucket.py
+
+    - name: Run MATLAB script
+      run: |
+        matlab -batch "tSampleByteRange.m"
