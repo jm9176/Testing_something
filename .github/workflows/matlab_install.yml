@@ -1,38 +1,51 @@
-name: Install MATLAB
+name: Test with LocalStack
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     services:
-      s3:
-        image: localstack/localstack:0.12.19
+      localstack:
+        image: localstack/localstack
         ports:
-          - 4566:4566
+          - 4566:4566  # LocalStack's edge port for all services
         options: >-
           --name localstack
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
         volumes:
-          - "./testfiles:/tmp/data"
+          - ${{ github.workspace }}/data:/mnt/data  # Mounts the 'data' directory from the repo to '/mnt/data' in the container
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Check file availability
+    - name: Install curl
+      run: sudo apt-get install -y curl
+
+    - name: Prepare data directory
+      run: mkdir -p data && echo "Sample data" > data/sample.txt
+
+    - name: Run tests
       env:
         AWS_ACCESS_KEY_ID: test
         AWS_SECRET_ACCESS_KEY: test
         AWS_DEFAULT_REGION: us-east-1
         S3_ENDPOINT: http://localhost:4566
       run: |
-        # Example: List files in the mounted directory
-        ls /tmp/data
+        # Create a bucket using the AWS S3 REST API
+        BUCKET_NAME=my-test-bucket
+        curl -X PUT "${S3_ENDPOINT}/${BUCKET_NAME}"
+
+        # List buckets to verify creation
+        echo "Listing buckets:"
+        curl "${S3_ENDPOINT}"
+
+        # Verify mounted volume
+        echo "Contents of mounted volume:"
+        ls /mnt/data
+        cat /mnt/data/sample.txt
