@@ -1,4 +1,4 @@
-name: Test with LocalStack and Boto3
+name: Test with LocalStack
 
 on:
   push:
@@ -23,6 +23,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        clean: false
 
     - name: Set up MATLAB
       uses: matlab-actions/setup-matlab@v2
