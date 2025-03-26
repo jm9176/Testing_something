@@ -10,6 +10,11 @@ def main():
         region_name=os.getenv('AWS_DEFAULT_REGION')
     )
 
+    # List current directory
+    contents = os.listdir('.')
+    for item in contents:
+	print(item)
+
     # Create a bucket
     bucket_name = 'my-test-bucket'
     s3.create_bucket(Bucket=bucket_name)
@@ -19,7 +24,7 @@ def main():
     print('Buckets:', [bucket['Name'] for bucket in response['Buckets']])
 
     # Upload a file to the bucket
-    s3.upload_file('testfiles/sample_file.nc', bucket_name, 'sample_file.nc')
+    s3.upload_file('test/testfiles/sample_file.nc', bucket_name, 'sample_file.nc')
 
     # List objects in the bucket
     response = s3.list_objects_v2(Bucket=bucket_name)
