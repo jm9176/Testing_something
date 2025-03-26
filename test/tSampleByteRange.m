@@ -7,6 +7,7 @@ classdef tSampleByteRange < matlab.unittest.TestCase
 
     methods(Test)
         function verifyLocalFileInfo(testcase)
+            disp(eval('ls'))
             fileInp = fullfile('testfiles','sample_file.nc');
             outInfo = ncinfo(fileInp);
         end
