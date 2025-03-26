@@ -8,6 +8,15 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      localstack:
+        image: localstack/localstack
+        ports:
+          - 4566:4566  # LocalStack's edge port for all services
+        options: >-
+          --name localstack
+          -e SERVICES=s3
+          -e DEFAULT_REGION=us-east-1
 
     steps:
     - name: Checkout code
@@ -23,12 +32,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install boto3
 
-    - name: Start LocalStack
-      uses: localstack/actions@v1
-      with:
-        services: s3
-        wait: true
-
     - name: Prepare data directory
       run: mkdir -p data && echo "Sample data" > data/sample.txt
 
@@ -38,4 +41,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: test
         AWS_DEFAULT_REGION: us-east-1
         S3_ENDPOINT: http://localhost:4566
-      run: python s3_operations.py
+      run: python create_bucket.py
