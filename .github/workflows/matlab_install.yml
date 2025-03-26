@@ -25,19 +25,5 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install curl
-      run: sudo apt-get install -y curl
-
     - name: Run tests
-      env:
-        AWS_ACCESS_KEY_ID: test
-        AWS_SECRET_ACCESS_KEY: test
-        S3_ENDPOINT: http://localhost:4566
-      run: |
-        # Create a bucket using the AWS S3 REST API
-        BUCKET_NAME=my-test-bucket
-        curl -X PUT "${S3_ENDPOINT}/${BUCKET_NAME}"
-
-        # List buckets to verify creation
-        echo "Listing buckets:"
-        curl "${S3_ENDPOINT}"
+      run: awslocal s3 ls
