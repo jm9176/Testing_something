@@ -13,8 +13,8 @@ def main():
     # List current directory
     contents = os.listdir('.')
     for item in contents:
-	print(item)
-
+        print(item)
+        
     # Create a bucket
     bucket_name = 'my-test-bucket'
     s3.create_bucket(Bucket=bucket_name)
