@@ -25,5 +25,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip
+        pip3 install awscli-local
+
     - name: Run tests
-      run: awslocal s3 ls
+      run: |
+        echo "List buckets:"
+        awslocal s3 ls
