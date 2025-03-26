@@ -17,7 +17,6 @@ jobs:
           --name localstack
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
-          -v "${{github.workspace}}/test/testfiles:/data"
 
     steps:
     - name: Checkout code
@@ -44,7 +43,7 @@ jobs:
 
     - name: Copy file to S3
       run: |
-        aws s3 cp /data/sample_file.nc s3://my-bucket/sample_file.nc --endpoint-url=http://localhost:4566
+        aws s3 cp /my-repo/test/testfiles/sample_file.nc s3://my-bucket/sample_file.nc --endpoint-url=http://localhost:4566
 
     - name: Verify S3 bucket creation
       run: |
