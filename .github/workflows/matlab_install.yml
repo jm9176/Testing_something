@@ -24,7 +24,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
-        clean: false
+        path: my-repo
 
     - name: Set up MATLAB
       uses: matlab-actions/setup-matlab@v2
