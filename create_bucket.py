@@ -19,7 +19,7 @@ def main():
     print('Buckets:', [bucket['Name'] for bucket in response['Buckets']])
 
     # Upload a file to the bucket
-    s3.upload_file('data/sample.txt', bucket_name, 'sample.txt')
+    s3.upload_file('testfiles/sample_file.nc', bucket_name, 'sample_file.nc')
 
     # List objects in the bucket
     response = s3.list_objects_v2(Bucket=bucket_name)

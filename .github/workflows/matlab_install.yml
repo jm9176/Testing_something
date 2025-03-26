@@ -32,9 +32,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install boto3
 
-    - name: Prepare data directory
-      run: mkdir -p data && echo "Sample data" > data/sample.txt
-
     - name: Run Python script
       env:
         AWS_ACCESS_KEY_ID: test
