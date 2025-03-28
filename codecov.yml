@@ -3,7 +3,5 @@ coverage:
     project:
       default:
         target: 85%
-        threshold: 5%
-
 ignore:
   - "test/*"
