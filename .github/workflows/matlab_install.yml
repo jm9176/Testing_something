@@ -1,4 +1,4 @@
-name: Test with LocalStack
+name: Test with LocalStack and Boto3
 
 on:
   push:
@@ -21,30 +21,38 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Set up MATLAB
+      uses: matlab-actions/setup-matlab@v2
       with:
-        path: my-repo
+        release: R2024a
 
-    - name: Install AWS CLI
-      run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install --update
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-    - name: Configure AWS CLI
+    - name: Install dependencies
       run: |
-        aws configure set aws_access_key_id test
-        aws configure set aws_secret_access_key test
-        aws configure set default.region us-east-1
-        aws configure set default.s3.endpoint_url http://localhost:4566
+        python -m pip install --upgrade pip
+        pip install boto3
 
-    - name: Create S3 bucket
-      run: |
-        aws s3api create-bucket --bucket my-bucket --endpoint-url=http://localhost:4566
+    - name: Run Python script
+      env:
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_DEFAULT_REGION: us-east-1
+        S3_ENDPOINT: http://localhost:4566
+      run: python create_bucket.py
 
-    - name: Copy file to S3
-      run: |
-        aws s3 cp /my-repo/test/testfiles/sample_file.nc s3://my-bucket/sample_file.nc --endpoint-url=http://localhost:4566
+    - name: Run tests
+      uses: matlab-actions/run-tests@v2
+      with:
+        select-by-folder: 'test'
+        code-coverage-cobertura: cobertura.xml
 
-    - name: Verify S3 bucket creation
-      run: |
-        aws s3 ls --endpoint-url=http://localhost:4566
+    - name: Upload codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: cobertura.xml
