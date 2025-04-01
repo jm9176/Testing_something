@@ -1,32 +1,26 @@
 import boto3
-import os
+from moto import mock_s3
 
+@mock_s3
 def main():
-    s3 = boto3.client(
-        's3',
-        endpoint_url=os.getenv('S3_ENDPOINT'),
-        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-        region_name=os.getenv('AWS_DEFAULT_REGION')
-    )
-
-    # List current directory
-    contents = os.listdir('.')
-    for item in contents:
-        print(item)
-        
-    # Create a bucket
     bucket_name = 'my-test-bucket'
-    s3.create_bucket(Bucket=bucket_name)
+    file_path = 'test/testfiles/sample_file.nc'
+    file_name = 'sample_file.nc'
 
-    # List buckets to verify creation
+    # Call the function to test
+    s3 = boto3.client('s3', region_name='us-east-1')
+    s3.create_bucket(Bucket=bucket_name)
+    with open(file_path,"rb") as file_data:
+        s3.upload_fileobj(file_data,bucket_name,file_name)
+    
+    # Verify the bucket was created
     response = s3.list_buckets()
     print('Buckets:', [bucket['Name'] for bucket in response['Buckets']])
+    
+    buckets = [bucket['Name'] for bucket in response['Buckets']]
+    assert bucket_name in buckets
 
-    # Upload a file to the bucket
-    s3.upload_file('test/testfiles/sample_file.nc', bucket_name, 'sample_file.nc')
-
-    # List objects in the bucket
+    # Verify the file was uploaded
     response = s3.list_objects_v2(Bucket=bucket_name)
     print('Objects in bucket:', [obj['Key'] for obj in response.get('Contents', [])])
 

@@ -8,15 +8,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      localstack:
-        image: localstack/localstack
-        ports:
-          - 4566:4566  # LocalStack's edge port for all services
-        options: >-
-          --name localstack
-          -e SERVICES=s3
-          -e DEFAULT_REGION=us-east-1
 
     steps:
     - name: Checkout code
@@ -35,14 +26,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install boto3
+        pip install boto3 moto pytest
 
     - name: Run Python script
-      env:
-        AWS_ACCESS_KEY_ID: test
-        AWS_SECRET_ACCESS_KEY: test
-        AWS_DEFAULT_REGION: us-east-1
-        S3_ENDPOINT: http://localhost:4566
       run: python create_bucket.py
 
     - name: Run tests
