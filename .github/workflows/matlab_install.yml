@@ -17,7 +17,6 @@ jobs:
           --name localstack
           -e SERVICES=s3
           -e DEFAULT_REGION=us-east-1
-          -v "${{github.workspace}}/test/testfiles:/data"
 
     steps:
     - name: Checkout code
@@ -39,6 +38,11 @@ jobs:
         pip install boto3
 
     - name: Run Python script
+      env:
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_DEFAULT_REGION: us-east-1
+        S3_ENDPOINT: http://localhost:4566
       run: python create_bucket.py
 
     - name: Run tests
