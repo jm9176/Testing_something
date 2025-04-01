@@ -1,7 +1,7 @@
 import boto3
-from moto import mock_s3
+from moto import mock_aws
 
-@mock_s3
+@mock_aws
 def main():
     bucket_name = 'my-test-bucket'
     file_path = 'test/testfiles/sample_file.nc'
