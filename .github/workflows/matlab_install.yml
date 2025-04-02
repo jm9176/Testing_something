@@ -12,7 +12,7 @@ jobs:
       localstack:
         image: localstack/localstack
         ports:
-          - 4566:4566  # LocalStack's edge port for all services
+          - 4566:4566  # Endpoint port
         options: >-
           --name localstack
           -e SERVICES=s3
