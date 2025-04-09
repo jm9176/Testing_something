@@ -12,7 +12,7 @@ classdef tSampleByteRange < matlab.unittest.TestCase
         end
 
         function verifyRemoteFileInfo(testcase)
-            actInfo = ncinfo(testcase.FilePath,'var1','var2');
+            actInfo = ncinfo(testcase.FilePath);
         end
     end
 end
