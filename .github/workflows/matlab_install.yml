@@ -1,4 +1,4 @@
-name: Test on all platforms
+name: Sample config
 
 on:
   push:
@@ -17,89 +17,6 @@ jobs:
       uses: matlab-actions/setup-matlab@v2
       with:
         release: R2024a
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install numpy tensorstore
-
-    - name: Run tests
-      uses: matlab-actions/run-tests@v2
-      with:
-        select-by-folder: 'test'
-        code-coverage-cobertura: cobertura.xml
-
-    - name: Upload codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        files: ./target/site/cobertura/coverage.xml
-        name: codecov-umbrella.xml
-
-  run-tests-windows:
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@v2
-      with:
-        release: R2024a
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install numpy tensorstore
-
-    - name: Run tests
-      uses: matlab-actions/run-tests@v2
-      with:
-        select-by-folder: 'test'
-        code-coverage-cobertura: cobertura.xml
-
-    - name: Upload codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        files: ./target/site/cobertura/coverage.xml
-        name: codecov-umbrella.xml
-
-  run-tests-macos:
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os: [macos-13, macos-14]   # runs on Mac with both Intel (macos-13) and Apple Silicon (macos-14) processors
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up MATLAB
-      uses: matlab-actions/setup-matlab@v2
-      with:
-        release: R2024a
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install numpy tensorstore
 
     - name: Run tests
       uses: matlab-actions/run-tests@v2
