@@ -77,11 +77,3 @@ jobs:
       uses: matlab-actions/run-tests@v2
       with:
         select-by-folder: test/local
-        code-coverage-cobertura: cobertura.xml
-
-    - name: Upload codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        files: ./target/site/cobertura/coverage.xml
-        name: codecov-umbrella.xml
