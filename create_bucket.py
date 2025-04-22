@@ -3,7 +3,7 @@ import os
 
 def main():
     bucket_name = 'my-test-bucket'
-    file_path = 'test/testfiles/sample_file.nc'
+    file_path = 'test/remote/testfiles/sample_file.nc'
     file_name = 'sample_file.nc'
 
     # Initialize the S3 client
