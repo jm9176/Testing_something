@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test:
+  test-linux:
     runs-on: ubuntu-latest
     services:
       localstack:
@@ -30,7 +30,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.11.9'
 
     - name: Install dependencies
       run: |
@@ -48,7 +48,35 @@ jobs:
     - name: Run tests
       uses: matlab-actions/run-tests@v2
       with:
-        select-by-folder: 'test/remote'
+        select-by-folder: test/local; test/remote
+        code-coverage-cobertura: cobertura.xml
+
+    - name: Upload codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        files: ./target/site/cobertura/coverage.xml
+        name: codecov-umbrella.xml
+
+  test-other-platforms:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-14]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up MATLAB
+      uses: matlab-actions/setup-matlab@v2
+      with:
+        release: R2024a
+
+    - name: Run tests
+      uses: matlab-actions/run-tests@v2
+      with:
+        select-by-folder: test/local
         code-coverage-cobertura: cobertura.xml
 
     - name: Upload codecov
