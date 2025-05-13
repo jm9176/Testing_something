@@ -1,5 +1,5 @@
 function out = myFcn()
-    % Sample function for code-coverage check
+    % Sample function for code-coverage check.
     out = true;
 
 end
